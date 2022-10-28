@@ -1,0 +1,24 @@
+fileFormatVersion: 2
+guid: df9d81bb819d8144797351e02a0cad2d
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - John Bones
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 78d8ec95e37bd874dba1399fe5d07cfc, type: 3}
+  - {fileID: 12800000, guid: c55d6bf2213c0404f8649ac2bedf2e9c, type: 3}
+  - {fileID: 12800000, guid: c1cf1c565e1a1cb428f37b2d815064f5, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
