@@ -58,3 +58,7 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+Pulyuy/Temp/
+Pulyuy/Library/Artifacts/
+Pulyuy/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache
+Pulyuy/Library/EditorInstance.json
