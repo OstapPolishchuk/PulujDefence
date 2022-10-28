@@ -4,50 +4,77 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private GameObject[] playerPositions;
+    public static PlayerMovement instance;
+
+    void Awake()
+    {
+        if(instance != null)
+        {
+            Debug.LogWarning("Instance freak up");
+        }
+        instance = this;
+    }
+
+    public Transform[] playerPositions;
     [SerializeField] private GameObject player;
     bool canMove = true, locked = false;
-    int previousPos, currentPos;
+    public int previousPos, currentPos, offset;
     float nextMoveTime, moveRate;
 
     void Start()
     {
-        currentPos = 2;
+        for(int i = 0; i < playerPositions.Length; i++)
+        {
+            if(player.transform.position.x == playerPositions[i].position.x)
+                currentPos = i;
+        }
+        
         previousPos = currentPos;
-        nextMoveTime = 0f;
-        moveRate = 1.2f;
+        offset = currentPos;
+        moveRate = 1f;
     }
 
     void Update()
     {
-        if(Time.time >= nextMoveTime && locked)
-        {
-            nextMoveTime = Time.time + 1f / moveRate;
-            locked = false;
-        }
-        
         if(canMove && !locked)
         {
             Movement();
+            player.transform.position = playerPositions[currentPos].position;
         }
+
+        if(offset != currentPos)
+        {
+            previousPos = offset;
+        }
+        offset = currentPos;
     }
 
     void Movement()
     {
         if(Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0 && (currentPos + (int)Input.GetAxisRaw("Horizontal")) >= 0)
         {
-            if((currentPos + (int)Input.GetAxisRaw("Horizontal")) <= 4)
+            if((currentPos + (int)Input.GetAxisRaw("Horizontal")) < 4)
             {
-                currentPos = currentPos + (int)Input.GetAxisRaw("Horizontal");
-                player.transform.position = playerPositions[currentPos].transform.position;
+                if(Input.GetAxisRaw("Horizontal") > 0f)
+                {
+                    currentPos++;
+                    locked = true;
+                    Invoke("TurnOffLocked", moveRate);
+                }
+
+                else if(Input.GetAxisRaw("Horizontal") < 0f)
+                {
+                    currentPos--;
+                    locked = true;
+                    Invoke("TurnOffLocked", moveRate);
+                }
                 locked = true;
             }
         }
-
     }
 
-    void FixedUpdate()
+    void TurnOffLocked()
     {
-        float Offset = currentPos - previousPos;
+        locked = false;
     }
 }
