@@ -59,7 +59,6 @@ sysinfo.txt
 crashlytics-build.properties
 
 Pulyuy/Temp/
-Pulyuy/Library/
-Pulyuy/Logs/
+Pulyuy/Library/Artifacts/
 Pulyuy/obj/Debug/Assembly-CSharp.csprojAssemblyReference.cache
 Pulyuy/Library/EditorInstance.json
