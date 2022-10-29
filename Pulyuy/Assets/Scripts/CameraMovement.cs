@@ -53,7 +53,6 @@ public class CameraMovement : MonoBehaviour
 
     private IEnumerator SmoothMove(Vector3 targetPos)
     {
-        //Debug.LogError("Start");
         float timer = 0.5f;
         Vector3 startPos = transform.position;
 
@@ -65,6 +64,5 @@ public class CameraMovement : MonoBehaviour
 
             yield return null;
         }
-        //Debug.LogError("End");
     }
 }
