@@ -21,7 +21,6 @@ public class ChargeStation : MonoBehaviour
 
     void DetectNearGenerator()
     {
-        Debug.Log(Input.GetKey(KeyCode.Space));
         if(playerMovement.currentPos == 1)
         {
             btnInstruction.SetActive(true);

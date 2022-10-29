@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class ChargeManager : MonoBehaviour
 {
@@ -16,38 +17,55 @@ public class ChargeManager : MonoBehaviour
         instance = this;
     }
 
-    int charge = 20, maxCharge = 20, minCharge = 1, amplifier = 40;
-    float maxW = 800f, minW = 1f;
-    public bool beingCharged = false;
-    bool disChargeStarted = false, helpingChargeBool = false;
+    int charge = 1, maxCharge = 20, minCharge = 1, amplifier = 40;
+    float maxW = 800f, minW = 40f, chargeToComp;
+    public bool beingCharged = false, exhausted = false;
+    bool disChargeStarted = false, helpingChargeBool = false, exhaustWorkedOnce = false;
+
+    [SerializeField]Canvas chargeCanvas;
     [SerializeField]RectTransform chargeScale;
     [SerializeField]TextMeshProUGUI percentage;
+    [SerializeField]Image percBckgrnd;
+
+    [SerializeField]GameObject[] windowBlockers;
 
     void Start()
     {
         chargeScale.sizeDelta = new Vector2(minW, 28f);
+        chargeCanvas.GetComponent<Canvas>().enabled = true;
+        chargeToComp = charge;
     }
 
     void Update()
     {
-        Debug.Log("beingCharged: "+beingCharged);
-        Debug.Log("helpingChargeBool: "+helpingChargeBool);
-        Debug.Log("disChargeStarted: "+disChargeStarted);
-        UpdatePercentage();
-
-        if(minW * charge * amplifier <= maxW)
-            chargeScale.sizeDelta = new Vector2(minW * charge * amplifier, 28f);
+        if(charge * amplifier <= maxW)
+            chargeScale.sizeDelta = new Vector2(charge * amplifier, 28f);
         
-        if(!beingCharged && !disChargeStarted)
+        if(!exhausted)
         {
-            StopAllCoroutines();
-            StartCoroutine(DisCharge());
+            UpdatePercentage();
+
+            if(!beingCharged && !disChargeStarted)
+            {
+                StopAllCoroutines();
+                StartCoroutine(DisCharge());
+            }
+
+            if(beingCharged && !helpingChargeBool)
+            {
+                StopAllCoroutines();
+                StartCoroutine(Charge());
+            }
         }
 
-        if(beingCharged && !helpingChargeBool)
+        if(charge == maxCharge && !exhaustWorkedOnce)
         {
-            StopAllCoroutines();
-            StartCoroutine(Charge());
+            exhausted = true;
+            charge = minCharge;
+
+            percentage.text = "--";
+            Invoke("TurnOffExhausted", 5f);
+            exhaustWorkedOnce = true;
         }
 
         if(beingCharged == false)
@@ -55,6 +73,8 @@ public class ChargeManager : MonoBehaviour
         
         if(charge == minCharge || beingCharged)
             disChargeStarted = false;
+
+        WindowsBlockerManager();
     }
 
     void UpdatePercentage()
@@ -72,20 +92,50 @@ public class ChargeManager : MonoBehaviour
     IEnumerator DisCharge()
     {
         disChargeStarted = true;
+        percBckgrnd.GetComponent<Image>().color = new Color32(255, 0, 0,255);
         while(!beingCharged && charge > minCharge)
         {
-            charge--;
             yield return new WaitForSeconds(0.7f);
+            charge--;
         }
     }
 
     IEnumerator Charge()
     {
+        percBckgrnd.GetComponent<Image>().color = new Color32(0, 255, 0,255);
         helpingChargeBool = true;
         while(beingCharged && charge < maxCharge)
         {
+            yield return new WaitForSeconds(0.8f);
             charge++;
-            yield return new WaitForSeconds(1f);
         }
+    }
+
+    void TurnOffExhausted()
+    {
+        exhausted = false;
+        exhaustWorkedOnce = false;
+    }
+
+    void WindowsBlockerManager()
+    {
+        if(charge != chargeToComp)
+        {
+            if(charge >= 10f)
+            {
+                for(int i = 0; i < windowBlockers.Length; i++)
+                {
+                    windowBlockers[i].SetActive(false);
+                }
+            }
+            else
+            {
+                for(int i = 0; i < windowBlockers.Length; i++)
+                {
+                    windowBlockers[i].SetActive(true);
+                }
+            }
+        }
+        chargeToComp = charge;
     }
 }
