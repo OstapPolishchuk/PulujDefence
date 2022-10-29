@@ -6,6 +6,7 @@ public class SleepManager : MonoBehaviour
 {
     PlayerMovement playerMovement;
     ChargeManager chargeManager;
+    CraftManager craftManager;
 
     Vector3 lastPlrPos;
     bool stage1Started, stage2Started;
@@ -17,6 +18,7 @@ public class SleepManager : MonoBehaviour
     {
         playerMovement = PlayerMovement.instance;
         chargeManager = ChargeManager.instance;
+        craftManager = CraftManager.instance;
 
         stage1Started = false;
         stage2Started = false;
@@ -31,7 +33,7 @@ public class SleepManager : MonoBehaviour
         sleepTimer += Time.deltaTime;
 
         //Checking if player displaced, if yes, setting sleepTimer to 0
-        if(playerMovement.transform.position != lastPlrPos || (chargeManager.beingCharged && !chargeManager.exhausted))
+        if(playerMovement.transform.position != lastPlrPos || (chargeManager.beingCharged && !chargeManager.exhausted) || craftManager.crafting)
         {
             sleepTimer = 0f;
             ReturnToAwake();

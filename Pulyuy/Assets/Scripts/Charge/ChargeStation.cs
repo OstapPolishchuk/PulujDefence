@@ -23,8 +23,12 @@ public class ChargeStation : MonoBehaviour
     {
         if(playerMovement.currentPos == 1)
         {
-            btnInstruction.SetActive(true);
-            if(Input.GetKey(KeyCode.Space))
+            if(!chargeManager.beingCharged && chargeManager.charge < chargeManager.maxCharge)
+                btnInstruction.SetActive(true);
+            else
+                btnInstruction.SetActive(false);
+
+            if(Input.GetKey(KeyCode.Space) && chargeManager.charge < chargeManager.maxCharge)
                 chargeManager.beingCharged = true;
             else
                 chargeManager.beingCharged = false;
