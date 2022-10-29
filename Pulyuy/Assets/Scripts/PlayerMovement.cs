@@ -72,10 +72,25 @@ public class PlayerMovement : MonoBehaviour
                 locked = true;
             }
         }
+
+        //Flipping player sprite
+        if(previousPos > currentPos && currentPos != 1)
+        {
+            player.GetComponent<SpriteRenderer>().flipX = true;
+        }
+        else if(previousPos < currentPos || currentPos == 1)
+        {
+            player.GetComponent<SpriteRenderer>().flipX = false;
+        }
     }
 
     void TurnOffLocked()
     {
         locked = false;
+    }
+
+    public void Die()
+    {
+        Debug.Log("Oh! The misery!");
     }
 }
