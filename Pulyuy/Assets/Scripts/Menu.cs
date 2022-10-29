@@ -49,6 +49,11 @@ public class Menu : MonoBehaviour
         }
     }
 
+    public void ResetTutorial()
+    {
+        animationPlayed = 0;
+    }
+
     public void Quit() 
     {
         Application.Quit();
