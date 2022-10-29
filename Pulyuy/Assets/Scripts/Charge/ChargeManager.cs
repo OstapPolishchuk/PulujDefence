@@ -68,7 +68,7 @@ public class ChargeManager : MonoBehaviour
             exhaustWorkedOnce = true;
         }
 
-        if(beingCharged == false)
+        if(!beingCharged)
             helpingChargeBool = false;
         
         if(charge == minCharge || beingCharged)
