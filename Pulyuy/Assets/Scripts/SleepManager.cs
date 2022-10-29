@@ -31,7 +31,7 @@ public class SleepManager : MonoBehaviour
         sleepTimer += Time.deltaTime;
 
         //Checking if player displaced, if yes, setting sleepTimer to 0
-        if(playerMovement.transform.position != lastPlrPos || chargeManager.beingCharged)
+        if(playerMovement.transform.position != lastPlrPos || (chargeManager.beingCharged && !chargeManager.exhausted))
         {
             sleepTimer = 0f;
             ReturnToAwake();

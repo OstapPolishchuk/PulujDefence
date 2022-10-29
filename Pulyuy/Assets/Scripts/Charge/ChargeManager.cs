@@ -18,35 +18,54 @@ public class ChargeManager : MonoBehaviour
     }
 
     int charge = 1, maxCharge = 20, minCharge = 1, amplifier = 40;
-    float maxW = 800f, minW = 1f;
-    public bool beingCharged = false;
-    bool disChargeStarted = false, helpingChargeBool = false;
+    float maxW = 800f, minW = 40f, chargeToComp;
+    public bool beingCharged = false, exhausted = false;
+    bool disChargeStarted = false, helpingChargeBool = false, exhaustWorkedOnce = false;
+
+    [SerializeField]Canvas chargeCanvas;
     [SerializeField]RectTransform chargeScale;
     [SerializeField]TextMeshProUGUI percentage;
     [SerializeField]Image percBckgrnd;
 
+    [SerializeField]GameObject[] windowBlockers;
+
     void Start()
     {
         chargeScale.sizeDelta = new Vector2(minW, 28f);
+        chargeCanvas.GetComponent<Canvas>().enabled = true;
+        chargeToComp = charge;
     }
 
     void Update()
     {
-        UpdatePercentage();
-
-        if(minW * charge * amplifier <= maxW)
-            chargeScale.sizeDelta = new Vector2(minW * charge * amplifier, 28f);
+        if(charge * amplifier <= maxW)
+            chargeScale.sizeDelta = new Vector2(charge * amplifier, 28f);
         
-        if(!beingCharged && !disChargeStarted)
+        if(!exhausted)
         {
-            StopAllCoroutines();
-            StartCoroutine(DisCharge());
+            UpdatePercentage();
+
+            if(!beingCharged && !disChargeStarted)
+            {
+                StopAllCoroutines();
+                StartCoroutine(DisCharge());
+            }
+
+            if(beingCharged && !helpingChargeBool)
+            {
+                StopAllCoroutines();
+                StartCoroutine(Charge());
+            }
         }
 
-        if(beingCharged && !helpingChargeBool)
+        if(charge == maxCharge && !exhaustWorkedOnce)
         {
-            StopAllCoroutines();
-            StartCoroutine(Charge());
+            exhausted = true;
+            charge = minCharge;
+
+            percentage.text = "--";
+            Invoke("TurnOffExhausted", 5f);
+            exhaustWorkedOnce = true;
         }
 
         if(beingCharged == false)
@@ -54,6 +73,8 @@ public class ChargeManager : MonoBehaviour
         
         if(charge == minCharge || beingCharged)
             disChargeStarted = false;
+
+        WindowsBlockerManager();
     }
 
     void UpdatePercentage()
@@ -88,5 +109,33 @@ public class ChargeManager : MonoBehaviour
             yield return new WaitForSeconds(0.8f);
             charge++;
         }
+    }
+
+    void TurnOffExhausted()
+    {
+        exhausted = false;
+        exhaustWorkedOnce = false;
+    }
+
+    void WindowsBlockerManager()
+    {
+        if(charge != chargeToComp)
+        {
+            if(charge >= 10f)
+            {
+                for(int i = 0; i < windowBlockers.Length; i++)
+                {
+                    windowBlockers[i].SetActive(false);
+                }
+            }
+            else
+            {
+                for(int i = 0; i < windowBlockers.Length; i++)
+                {
+                    windowBlockers[i].SetActive(true);
+                }
+            }
+        }
+        chargeToComp = charge;
     }
 }
