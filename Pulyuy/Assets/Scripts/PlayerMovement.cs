@@ -21,6 +21,9 @@ public class PlayerMovement : MonoBehaviour
     [HideInInspector()]public int previousPos, currentPos, offset;
     float nextMoveTime, moveRate, startZ = -.1f;
 
+    [SerializeField] private Transform bulletSpawnPos;
+    [SerializeField] private GameObject bulletPrefab;
+
     void Start()
     {
         for(int i = 0; i < playerPositions.Length; i++)
@@ -37,6 +40,10 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (player.transform.position.x <= -12 || player.transform.position.x >= 12) Shoot();
+        }
         if(canMove && !locked)
         {
             Movement();
@@ -73,14 +80,27 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        //Flipping player sprite
-        if(previousPos > currentPos && currentPos != 1)
+        //Flipping player
+        if (transform.position.x <= -12)
         {
-            player.GetComponent<SpriteRenderer>().flipX = true;
+            transform.localScale = new Vector3(-1.5f, 1.5f, 1f);
         }
-        else if(previousPos < currentPos || currentPos == 1)
+        else if (transform.position.x >= 12)
         {
-            player.GetComponent<SpriteRenderer>().flipX = false;
+            transform.localScale = new Vector3(-1.5f, 1.5f, 1f);
+        }
+        else
+        {
+            if (previousPos > currentPos)
+            {
+                //player.GetComponent<SpriteRenderer>().flipX = true;
+                transform.localScale = new Vector3(1.5f, 1.5f, 1f);
+            }
+            else if (previousPos < currentPos)
+            {
+                //player.GetComponent<SpriteRenderer>().flipX = false;
+                transform.localScale = new Vector3(-1.5f, 1.5f, 1f);
+            }
         }
     }
 
@@ -92,5 +112,41 @@ public class PlayerMovement : MonoBehaviour
     public void Die()
     {
         Debug.Log("Oh! The misery!");
+    }
+
+    private void Shoot()
+    {
+        if (CraftManager.instance.bullets >= 1)
+        {
+            Enemy enemy = null;
+
+            if (transform.position.x > 0)
+            {
+                if (EnemiesManager.instance.enemiesR.Count >= 1)
+                {
+                    enemy = EnemiesManager.instance.enemiesR[0];
+                    EnemiesManager.instance.enemiesR.RemoveAt(0);
+                    LevelManager.instance.OpenRight();
+                }
+            }
+            else
+            {
+                if (EnemiesManager.instance.enemiesL.Count >= 1)
+                {
+                    enemy = EnemiesManager.instance.enemiesL[0];
+                    EnemiesManager.instance.enemiesL.RemoveAt(0);
+                    LevelManager.instance.OpenLeft();
+                }
+            }
+
+            if (!enemy)
+            {
+                LevelManager.instance.CloseLeft();
+                LevelManager.instance.CloseRight();
+                return;
+            }
+            CraftManager.instance.bullets--;
+            Instantiate(bulletPrefab, bulletSpawnPos.position, bulletSpawnPos.rotation).GetComponent<Bullet>().Init(enemy);
+        }
     }
 }

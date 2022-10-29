@@ -4,12 +4,23 @@ using UnityEngine;
 
 public class CraftManager : MonoBehaviour
 {
+    public static CraftManager instance;
+    void Awake()
+    {
+        if (instance != null)
+        {
+            Debug.Log("instance freak up");
+        }
+        instance = this;
+    }
+
     PlayerMovement playerMovement;
 
     [SerializeField] Canvas bulletCanvas;
     [SerializeField] GameObject[] bulletsImages;
     [SerializeField] GameObject btnInstruction;
-    int bullets, maxbullets = 3, minbullets = 0, bulletsToComp;
+    public int bullets;
+    int maxbullets = 3, minbullets = 0, bulletsToComp;
     bool crafting = false, helpingCraftBool = false;
 
     void Start()

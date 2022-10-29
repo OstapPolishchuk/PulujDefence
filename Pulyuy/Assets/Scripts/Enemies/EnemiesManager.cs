@@ -35,8 +35,6 @@ public class EnemiesManager : MonoBehaviour
     { 
         while(true)
         {
-            Debug.Log(enemiesL.Count);
-            Debug.Log(enemiesR.Count);
             Enemy enemy = Instantiate(enemyPrefab, new Vector3(0, 0, 20), Quaternion.Euler(0, 0, 0)).GetComponent<Enemy>();
             int a = Random.Range(0, 2);
             if (a == 0)
