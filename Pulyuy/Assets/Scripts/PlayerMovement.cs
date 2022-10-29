@@ -113,8 +113,8 @@ public class PlayerMovement : MonoBehaviour
     public void Die()
     {
         Debug.Log("Oh! The misery!");
-        finishMenu.gameObject.SetActive(true);
-        finishMenu.IsSuccesfullyCompletes(false);
+        //finishMenu.gameObject.SetActive(true);
+        //finishMenu.IsSuccesfullyCompletes(false);
         SoundManager.Finish(false);
     }
 

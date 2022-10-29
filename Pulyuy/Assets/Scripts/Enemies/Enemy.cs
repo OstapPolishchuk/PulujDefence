@@ -29,16 +29,16 @@ public class Enemy : MonoBehaviour
         StartCoroutine(Move(isRightSide ? 5 : -5));
     }
 
-    private IEnumerator Move(float offset)
+    public IEnumerator Move(float offset)
     {
-        float timer = 5f;
+        float timer = 3f;
         Vector3 startPos = transform.position;
         Vector3 targetPos = startPos + new Vector3(offset, 0, 0);
 
         while (timer > 0)
         {
             timer -= Time.deltaTime;
-            float lerpFacor = 1f - (timer / 5f);
+            float lerpFacor = 1f - (timer / 3f);
             transform.position = Vector3.Lerp(startPos, targetPos, lerpFacor);
 
             yield return null;
@@ -46,7 +46,6 @@ public class Enemy : MonoBehaviour
 
         if (finished)
         {
-            renderer.sprite = sprites[Random.Range(0, sprites.Length)];
             transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
             StopCoroutine("TurnAround");
         }
@@ -69,5 +68,10 @@ public class Enemy : MonoBehaviour
     public void Die()
     {
         Destroy(gameObject);
+    }
+
+    public void ChangeSprite()
+    {
+        renderer.sprite = sprites[Random.Range(0, sprites.Length)];
     }
 }

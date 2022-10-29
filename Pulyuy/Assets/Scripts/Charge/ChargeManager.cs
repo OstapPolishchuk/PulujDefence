@@ -127,20 +127,21 @@ public class ChargeManager : MonoBehaviour
         Enemy enemyToKill = null;
         for (int i = 0; i < killPerExh / 2; i++)
         {
-            enemyToKill = enemiesManager.enemiesR[i];
-            if (enemyToKill.isRightSide && enemiesManager.enemiesR.Count - 1 >= 0)
+            if (enemiesManager.enemiesR.Count - 1 >= 0)
             {
-                enemiesManager.enemiesR.RemoveAt(i);
+                enemyToKill = enemiesManager.enemiesR[0];
+                enemiesManager.enemiesR.RemoveAt(0);
+                enemyToKill.Die();
+                enemiesManager.OffsetAllRight();
             }
-            enemyToKill.Die();
 
-
-            enemyToKill = enemiesManager.enemiesL[i];
-            if (!enemyToKill.isRightSide && enemiesManager.enemiesL.Count - 1 >= 0)
+            if (enemiesManager.enemiesL.Count - 1 >= 0)
             {
-                enemiesManager.enemiesL.RemoveAt(i);
+                enemyToKill = enemiesManager.enemiesL[0];
+                enemiesManager.enemiesL.RemoveAt(0);
+                enemyToKill.Die();
+                enemiesManager.OffsetAllLeft();
             }
-            enemyToKill.Die();
         }
     }
 

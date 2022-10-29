@@ -24,11 +24,20 @@ public class Bullet : MonoBehaviour
 
             yield return null;
         }
-        if (enemy.isRightSide) EnemiesManager.instance.enemiesR.Remove(enemy);
-        else EnemiesManager.instance.enemiesL.Remove(enemy);
+        if (enemy.isRightSide)
+        {
+            EnemiesManager.instance.enemiesR.Remove(enemy);
+            EnemiesManager.instance.OffsetAllRight();
+        }
+        else
+        {
+            EnemiesManager.instance.enemiesL.Remove(enemy);
+            EnemiesManager.instance.OffsetAllLeft();
+        }
+
         enemy.Die();
         LevelManager.instance.CloseLeft();
         LevelManager.instance.CloseRight();
-        //Destroy(gameObject);
+        Destroy(gameObject);
     }
 }
