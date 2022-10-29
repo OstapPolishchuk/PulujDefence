@@ -11,10 +11,12 @@ public class EnemiesManager : MonoBehaviour
     [SerializeField] private Transform leftWindow;
     [SerializeField] private Transform rightWindow;
 
+    private List<Enemy> enemies = new List<Enemy>();
+
     private int countL;
     private int countR;
 
-    private const float spawningInterval = 10f;
+    private const float spawningInterval = 5f;
 
     void Awake()
     {
@@ -31,59 +33,53 @@ public class EnemiesManager : MonoBehaviour
         StartCoroutine(Spawning());
     }
 
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
-    }
-
     private IEnumerator Spawning()
     { 
         while(true)
         {
-            Debug.Log(countL + "  " + countR);
             Enemy enemy = Instantiate(enemyPrefab, new Vector3(0, 0, 20), Quaternion.Euler(0, 0, 0)).GetComponent<Enemy>();
             int a = Random.Range(0, 2);
             if (a == 0)
             {
-                if (countL < 3)
-                {
-                    enemy.Init(leftWindow.position.x + countL - 1);
-                    countL++;
-                }
-                else if (countR < 3)
-                {
-                    enemy.Init(rightWindow.position.x - countR + 1);
-                    countR++;
-                }
+                if (countL < 3) SpawnLeft(enemy);
+                else if (countR < 3) SpawnRight(enemy);
                 else
                 {
-                    // Knock;
+                    Knock();
+                    break;
                 }
             }
             else
             {
-                if (countR < 3)
-                {
-                    enemy.Init(rightWindow.position.x - countR + 1);
-                    countR++;
-                }
-                else if (countL < 3)
-                {
-                    enemy.Init(leftWindow.position.x + countL - 1);
-                    countL++;
-                }
+                if (countR < 3) SpawnRight(enemy);
+                else if (countL < 3)  SpawnLeft(enemy);
                 else
                 {
-                    // Knock;
+                    Knock();
+                    break;
                 }
             }
 
             yield return new WaitForSeconds(spawningInterval);
         }
+    }
+
+    private void SpawnRight(Enemy enemy) 
+    {
+        enemy.Init(rightWindow.position.x - countR + 1);
+        countR++;
+        enemies.Add(enemy);
+    }
+
+    private void SpawnLeft(Enemy enemy) 
+    {
+        enemy.Init(leftWindow.position.x + countL - 1);
+        countL++;
+        enemies.Add(enemy);
+    }
+
+    private void Knock()
+    {
+        // foreach (Enemy _enemy in enemies) _enemy.GoToDoor();
     }
 }
