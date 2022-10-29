@@ -125,30 +125,22 @@ public class ChargeManager : MonoBehaviour
     void Explode()
     {
         Enemy enemyToKill = null;
-        for(int i = 0; i < killPerExh; i++)
+        for (int i = 0; i < killPerExh / 2; i++)
         {
-            if(enemiesManager.enemies[i])
+            enemyToKill = enemiesManager.enemiesR[i];
+            if (enemyToKill.isRightSide && enemiesManager.enemiesR.Count - 1 >= 0)
             {
-                enemyToKill = enemiesManager.enemies[i];
-                if(enemyToKill)
-                {
-                    if(enemyToKill.isRightSide && enemiesManager.countR - 1 >= 0)
-                    {
-                        enemiesManager.countR--;
-                    }
-                    else if(!enemyToKill.isRightSide && enemiesManager.countL - 1 >= 0)
-                    {
-                        enemiesManager.countL--;
-                    }
-                    enemyToKill.Die();
-                }
+                enemiesManager.enemiesR.RemoveAt(i);
             }
-        }
+            enemyToKill.Die();
 
-        for(int i = 0; i < enemiesManager.enemies.Count; i++)
-        {
-            if(enemiesManager.enemies[i] == null)
-                enemiesManager.enemies.RemoveAt(i);
+
+            enemyToKill = enemiesManager.enemiesL[i];
+            if (!enemyToKill.isRightSide && enemiesManager.enemiesL.Count - 1 >= 0)
+            {
+                enemiesManager.enemiesL.RemoveAt(i);
+            }
+            enemyToKill.Die();
         }
     }
 

@@ -11,9 +11,8 @@ public class EnemiesManager : MonoBehaviour
     [SerializeField] private Transform leftWindow;
     [SerializeField] private Transform rightWindow;
 
-    public List<Enemy> enemies = new List<Enemy>();
-
-    public int countL, countR;
+    public List<Enemy> enemiesL = new List<Enemy>();
+    public List<Enemy> enemiesR = new List<Enemy>();
 
     private const float spawningInterval = 5f;
 
@@ -36,14 +35,12 @@ public class EnemiesManager : MonoBehaviour
     { 
         while(true)
         {
-            Debug.Log(countL);
-            Debug.Log(countR);
             Enemy enemy = Instantiate(enemyPrefab, new Vector3(0, 0, 20), Quaternion.Euler(0, 0, 0)).GetComponent<Enemy>();
             int a = Random.Range(0, 2);
             if (a == 0)
             {
-                if (countL < 3) SpawnLeft(enemy);
-                else if (countR < 3) SpawnRight(enemy);
+                if (enemiesL.Count < 3) SpawnLeft(enemy);
+                else if (enemiesR.Count < 3) SpawnRight(enemy);
                 else
                 {
                     Knock();
@@ -51,8 +48,8 @@ public class EnemiesManager : MonoBehaviour
             }
             else
             {
-                if (countR < 3) SpawnRight(enemy);
-                else if (countL < 3)  SpawnLeft(enemy);
+                if (enemiesR.Count < 3) SpawnRight(enemy);
+                else if (enemiesL.Count < 3)  SpawnLeft(enemy);
                 else
                 {
                     Knock();
@@ -65,16 +62,14 @@ public class EnemiesManager : MonoBehaviour
 
     private void SpawnRight(Enemy enemy) 
     {
-        enemy.Init(rightWindow.position.x - countR + 1);
-        countR++;
-        enemies.Add(enemy);
+        enemy.Init(rightWindow.position.x - enemiesR.Count + 1);
+        enemiesR.Add(enemy);
     }
 
     private void SpawnLeft(Enemy enemy) 
     {
-        enemy.Init(leftWindow.position.x + countL - 1);
-        countL++;
-        enemies.Add(enemy);
+        enemy.Init(leftWindow.position.x + enemiesL.Count - 1);
+        enemiesL.Add(enemy);
     }
 
     private void Knock()

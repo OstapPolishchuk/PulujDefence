@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     public void GoToDoor()
