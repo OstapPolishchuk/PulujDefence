@@ -21,7 +21,7 @@ public class CraftManager : MonoBehaviour
     [SerializeField] GameObject btnInstruction;
     public int bullets;
     int maxbullets = 3, minbullets = 0, bulletsToComp;
-    bool crafting = false, helpingCraftBool = false;
+    public bool crafting = false, helpingCraftBool = false;
 
     void Start()
     {
@@ -61,8 +61,12 @@ public class CraftManager : MonoBehaviour
     {
         if(playerMovement.currentPos == 2)
         {
-            btnInstruction.SetActive(true);
-            if(Input.GetKey(KeyCode.Space))
+            if(!crafting && bullets < maxbullets)
+                btnInstruction.SetActive(true);
+            else
+                btnInstruction.SetActive(false);
+
+            if(Input.GetKey(KeyCode.Space) && bullets < maxbullets)
                 crafting = true;
             else
                 crafting = false;
