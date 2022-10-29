@@ -161,6 +161,7 @@ public class ChargeManager : MonoBehaviour
                 {
                     windowBlockers[i].SetActive(false);
                 }
+                SoundManager.SetXray(true);
             }
             else
             {
@@ -168,6 +169,7 @@ public class ChargeManager : MonoBehaviour
                 {
                     windowBlockers[i].SetActive(true);
                 }
+                SoundManager.SetXray(false);
             }
         }
         chargeToComp = charge;

@@ -137,7 +137,7 @@ public class PlayerMovement : MonoBehaviour
                 {
                     enemy = EnemiesManager.instance.enemiesR[0];
                     EnemiesManager.instance.enemiesR.RemoveAt(0);
-                    LevelManager.instance.OpenRight();
+                    if(enemy) LevelManager.instance.OpenRight();
                 }
             }
             else
@@ -146,16 +146,11 @@ public class PlayerMovement : MonoBehaviour
                 {
                     enemy = EnemiesManager.instance.enemiesL[0];
                     EnemiesManager.instance.enemiesL.RemoveAt(0);
-                    LevelManager.instance.OpenLeft();
+                    if (enemy) LevelManager.instance.OpenLeft();
                 }
             }
 
-            if (!enemy)
-            {
-                LevelManager.instance.CloseLeft();
-                LevelManager.instance.CloseRight();
-                return;
-            }
+            if (!enemy) return;
 
             SoundManager.PlayShoot();
             CraftManager.instance.bullets--;

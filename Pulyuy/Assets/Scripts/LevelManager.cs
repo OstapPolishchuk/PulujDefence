@@ -27,8 +27,27 @@ public class LevelManager : MonoBehaviour
         CloseRight();
     }
 
-    public void OpenLeft() { leftDoor.sprite = opened; }
-    public void CloseLeft() { leftDoor.sprite = closed; }
-    public void OpenRight() { rightDoor.sprite = opened; }
-    public void CloseRight() { rightDoor.sprite = closed; }
+    public void OpenLeft() 
+    { 
+        leftDoor.sprite = opened;
+        SoundManager.SetDoor(true);
+    }
+
+    public void CloseLeft() 
+    { 
+        leftDoor.sprite = closed;
+        SoundManager.SetDoor(false);
+    }
+
+    public void OpenRight() 
+    {
+        rightDoor.sprite = opened;
+        SoundManager.SetDoor(true);
+    }
+
+    public void CloseRight() 
+    {
+        rightDoor.sprite = closed;
+        SoundManager.SetDoor(false);
+    }
 }
