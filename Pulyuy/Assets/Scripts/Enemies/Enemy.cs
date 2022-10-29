@@ -5,21 +5,28 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer renderer;
+    [SerializeField] private Sprite skeleton;
     [SerializeField] private Sprite[] sprites;
 
-    private static int count;
+    [HideInInspector] public bool finished = false;
+
+    private bool isRightSide;
 
     public void Init(float offset)
     {
         StartCoroutine(Move(offset));
-        renderer.sprite = sprites[count];
-        //renderer.sprite = sprites[Random.Range(0, sprites.Length)];
-        count++;
+        isRightSide = offset > 0;
+        renderer.sprite = skeleton;
     }
 
     void Update()
     {
         
+    }
+
+    public void GoToDoor()
+    {
+        StartCoroutine(Move(isRightSide ? 5 : -5));
     }
 
     private IEnumerator Move(float offset)
@@ -36,7 +43,18 @@ public class Enemy : MonoBehaviour
 
             yield return null;
         }
-        StartCoroutine(TurnAround());
+
+        if (finished)
+        {
+            renderer.sprite = sprites[Random.Range(0, sprites.Length)];
+            transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+            StopCoroutine("TurnAround");
+        }
+        else
+        {
+            StartCoroutine(TurnAround());
+        }
+        if (!finished) finished = true;
     }
 
     private IEnumerator TurnAround()
