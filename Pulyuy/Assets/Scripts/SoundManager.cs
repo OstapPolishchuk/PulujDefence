@@ -14,6 +14,8 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource xrayOff;
     [SerializeField] private AudioSource doorOpen;
     [SerializeField] private AudioSource doorClose;
+    [SerializeField] private AudioSource win;
+    [SerializeField] private AudioSource fail;
 
     void Awake()
     {
@@ -45,9 +47,15 @@ public class SoundManager : MonoBehaviour
         else instance.xrayOff.Play();
     }
 
-    public static void SetDor(bool value)
+    public static void SetDoor(bool value)
     {
         if (value) instance.doorOpen.Play();
-        else instance.doorClose.Stop();
+        else instance.doorClose.Play();
+    }
+
+    public static void Finish(bool succesfuly)
+    {
+        if (succesfuly) instance.win.Play();
+        else instance.fail.Play();
     }
 }
