@@ -19,8 +19,9 @@ public class ChargeManager : MonoBehaviour
 
     EnemiesManager enemiesManager;
 
-    int charge = 1, maxCharge = 20, minCharge = 1, amplifier = 40, killPerExh = 4;
-    float maxW = 800f, minW = 40f, chargeToComp;
+    int minCharge = 1, amplifier = 40, killPerExh = 4; 
+    public int charge = 1, maxCharge = 20;
+    float maxW = 800f, minW = 40f;
     public bool beingCharged = false, exhausted = false;
     bool disChargeStarted = false, helpingChargeBool = false, exhaustWorkedOnce = false;
 
@@ -28,8 +29,8 @@ public class ChargeManager : MonoBehaviour
     [SerializeField]RectTransform chargeScale;
     [SerializeField]TextMeshProUGUI percentage;
     [SerializeField]Image percBckgrnd;
-
-    [SerializeField]GameObject[] windowBlockers;
+    
+    public XRayMachine[] xrMachines;
 
     void Start()
     {
@@ -37,7 +38,6 @@ public class ChargeManager : MonoBehaviour
 
         chargeScale.sizeDelta = new Vector2(minW, 28f);
         chargeCanvas.GetComponent<Canvas>().enabled = true;
-        chargeToComp = charge;
     }
 
     void Update()
@@ -81,7 +81,8 @@ public class ChargeManager : MonoBehaviour
         if(charge == minCharge || beingCharged)
             disChargeStarted = false;
 
-        WindowsBlockerManager();
+        for(int i = 0; i < xrMachines.Length; i++)
+           xrMachines[i].WindowsBlockerManager();
     }
 
     void UpdatePercentage()
@@ -155,28 +156,5 @@ public class ChargeManager : MonoBehaviour
     {
         exhausted = false;
         exhaustWorkedOnce = false;
-    }
-
-    //Turning on or off windows blockers to see enemies if charge is >50%
-    void WindowsBlockerManager()
-    {
-        if(charge != chargeToComp)
-        {
-            if(charge >= 10f)
-            {
-                for(int i = 0; i < windowBlockers.Length; i++)
-                {
-                    windowBlockers[i].SetActive(false);
-                }
-            }
-            else
-            {
-                for(int i = 0; i < windowBlockers.Length; i++)
-                {
-                    windowBlockers[i].SetActive(true);
-                }
-            }
-        }
-        chargeToComp = charge;
     }
 }

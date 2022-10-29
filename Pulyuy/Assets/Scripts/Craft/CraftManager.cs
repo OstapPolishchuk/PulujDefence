@@ -4,13 +4,25 @@ using UnityEngine;
 
 public class CraftManager : MonoBehaviour
 {
+    public static CraftManager instance;
+
+    void Awake()
+    {
+        if(instance != null)
+        {
+            Debug.LogWarning("instance freak up");
+        }
+        instance = this;
+    }
     PlayerMovement playerMovement;
 
     [SerializeField] Canvas bulletCanvas;
     [SerializeField] GameObject[] bulletsImages;
     [SerializeField] GameObject btnInstruction;
-    int bullets, maxbullets = 3, minbullets = 0, bulletsToComp;
-    bool crafting = false, helpingCraftBool = false;
+    public int bullets;
+    int maxbullets = 3, minbullets = 0, bulletsToComp;
+    public bool crafting = false;
+    bool helpingCraftBool = false;
 
     void Start()
     {
@@ -23,7 +35,7 @@ public class CraftManager : MonoBehaviour
     void Update()
     {
         if(crafting && !helpingCraftBool)
-        {
+        {  
             StopAllCoroutines();
             StartCoroutine(Craft());
         }
@@ -42,7 +54,8 @@ public class CraftManager : MonoBehaviour
         while(crafting && bullets < maxbullets)
         {
             yield return new WaitForSeconds(2f);
-            bullets++;
+            if(crafting)
+                bullets++;
         }
     }
 
@@ -50,8 +63,12 @@ public class CraftManager : MonoBehaviour
     {
         if(playerMovement.currentPos == 2)
         {
-            btnInstruction.SetActive(true);
-            if(Input.GetKey(KeyCode.Space))
+            if(!crafting && bullets < maxbullets)
+                btnInstruction.SetActive(true);
+            else
+                btnInstruction.SetActive(false);
+            
+            if(Input.GetKey(KeyCode.Space) && bullets < maxbullets)
                 crafting = true;
             else
                 crafting = false;
