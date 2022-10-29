@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private Transform bulletSpawnPos;
     [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private FinishMenu finishMenu;
 
     void Start()
     {
@@ -112,6 +113,16 @@ public class PlayerMovement : MonoBehaviour
     public void Die()
     {
         Debug.Log("Oh! The misery!");
+        finishMenu.gameObject.SetActive(true);
+        finishMenu.IsSuccesfullyCompletes(false);
+        SoundManager.Finish(false);
+    }
+
+    public void Win()
+    {
+        finishMenu.gameObject.SetActive(true);
+        finishMenu.IsSuccesfullyCompletes(true);
+        SoundManager.Finish(true);
     }
 
     private void Shoot()
@@ -145,6 +156,8 @@ public class PlayerMovement : MonoBehaviour
                 LevelManager.instance.CloseRight();
                 return;
             }
+
+            SoundManager.PlayShoot();
             CraftManager.instance.bullets--;
             Instantiate(bulletPrefab, bulletSpawnPos.position, bulletSpawnPos.rotation).GetComponent<Bullet>().Init(enemy);
         }

@@ -140,6 +140,7 @@ public class ChargeManager : MonoBehaviour
                 enemiesManager.enemiesL.RemoveAt(i);
             }
             enemyToKill.Die();
+            SoundManager.PlayOverHeat();
         }
     }
 
