@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
 
     [HideInInspector] public bool finished = false;
 
-    private bool isRightSide;
+    public bool isRightSide;
 
     public void Init(float offset)
     {
@@ -64,5 +64,10 @@ public class Enemy : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(1, 5));
             transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
         }
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
     }
 }

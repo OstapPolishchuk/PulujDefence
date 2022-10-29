@@ -11,10 +11,9 @@ public class EnemiesManager : MonoBehaviour
     [SerializeField] private Transform leftWindow;
     [SerializeField] private Transform rightWindow;
 
-    private List<Enemy> enemies = new List<Enemy>();
+    public List<Enemy> enemies = new List<Enemy>();
 
-    private int countL;
-    private int countR;
+    public int countL, countR;
 
     private const float spawningInterval = 5f;
 
@@ -37,6 +36,8 @@ public class EnemiesManager : MonoBehaviour
     { 
         while(true)
         {
+            Debug.Log(countL);
+            Debug.Log(countR);
             Enemy enemy = Instantiate(enemyPrefab, new Vector3(0, 0, 20), Quaternion.Euler(0, 0, 0)).GetComponent<Enemy>();
             int a = Random.Range(0, 2);
             if (a == 0)
@@ -46,7 +47,6 @@ public class EnemiesManager : MonoBehaviour
                 else
                 {
                     Knock();
-                    break;
                 }
             }
             else
@@ -56,7 +56,6 @@ public class EnemiesManager : MonoBehaviour
                 else
                 {
                     Knock();
-                    break;
                 }
             }
 
