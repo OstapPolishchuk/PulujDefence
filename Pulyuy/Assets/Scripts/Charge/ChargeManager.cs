@@ -17,7 +17,9 @@ public class ChargeManager : MonoBehaviour
         instance = this;
     }
 
-    int charge = 1, maxCharge = 20, minCharge = 1, amplifier = 40;
+    EnemiesManager enemiesManager;
+
+    int charge = 1, maxCharge = 20, minCharge = 1, amplifier = 40, killPerExh = 4;
     float maxW = 800f, minW = 40f, chargeToComp;
     public bool beingCharged = false, exhausted = false;
     bool disChargeStarted = false, helpingChargeBool = false, exhaustWorkedOnce = false;
@@ -31,6 +33,8 @@ public class ChargeManager : MonoBehaviour
 
     void Start()
     {
+        enemiesManager = EnemiesManager.instance;
+
         chargeScale.sizeDelta = new Vector2(minW, 28f);
         chargeCanvas.GetComponent<Canvas>().enabled = true;
         chargeToComp = charge;
@@ -41,6 +45,7 @@ public class ChargeManager : MonoBehaviour
         if(charge * amplifier <= maxW)
             chargeScale.sizeDelta = new Vector2(charge * amplifier, 28f);
         
+        //Charging/Discharging
         if(!exhausted)
         {
             UpdatePercentage();
@@ -58,13 +63,15 @@ public class ChargeManager : MonoBehaviour
             }
         }
 
+        //Exhausting
         if(charge == maxCharge && !exhaustWorkedOnce)
         {
             exhausted = true;
+            Invoke("TurnOffExhausted", 5f);
             charge = minCharge;
 
             percentage.text = "--";
-            Invoke("TurnOffExhausted", 5f);
+            Explode();
             exhaustWorkedOnce = true;
         }
 
@@ -89,6 +96,7 @@ public class ChargeManager : MonoBehaviour
             percentage.text = charge * 5 + "%";
     }
 
+    //Discharging charge as time goes by
     IEnumerator DisCharge()
     {
         disChargeStarted = true;
@@ -100,6 +108,7 @@ public class ChargeManager : MonoBehaviour
         }
     }
 
+    //Charging charge as player holds Space near generetor
     IEnumerator Charge()
     {
         percBckgrnd.GetComponent<Image>().color = new Color32(0, 255, 0,255);
@@ -111,12 +120,44 @@ public class ChargeManager : MonoBehaviour
         }
     }
 
+    //Exploding X-rays as charge = 100%
+    void Explode()
+    {
+        Enemy enemyToKill = null;
+        for(int i = 0; i < killPerExh; i++)
+        {
+            if(enemiesManager.enemies[i])
+            {
+                enemyToKill = enemiesManager.enemies[i];
+                if(enemyToKill)
+                {
+                    if(enemyToKill.isRightSide && enemiesManager.countR - 1 >= 0)
+                    {
+                        enemiesManager.countR--;
+                    }
+                    else if(!enemyToKill.isRightSide && enemiesManager.countL - 1 >= 0)
+                    {
+                        enemiesManager.countL--;
+                    }
+                    enemyToKill.Die();
+                }
+            }
+        }
+
+        for(int i = 0; i < enemiesManager.enemies.Count; i++)
+        {
+            if(enemiesManager.enemies[i] == null)
+                enemiesManager.enemies.RemoveAt(i);
+        }
+    }
+
     void TurnOffExhausted()
     {
         exhausted = false;
         exhaustWorkedOnce = false;
     }
 
+    //Turning on or off windows blockers to see enemies if charge is >50%
     void WindowsBlockerManager()
     {
         if(charge != chargeToComp)
