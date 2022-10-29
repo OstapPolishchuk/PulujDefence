@@ -25,7 +25,9 @@ public class CameraMovement : MonoBehaviour
         if(playerMovement.currentPos != playerMovement.previousPos)
         {
             curPos = playerMovement.currentPos;
-            prevPos = playerMovement.previousPos;
+            //prevPos = playerMovement.previousPos;
+            playerMovement.previousPos = curPos;
+
             NewCamX();
         }
     }
@@ -45,6 +47,24 @@ public class CameraMovement : MonoBehaviour
                 break;
         }
 
-        transform.position = new Vector3(middleX, transform.position.y, transform.position.z);
+        //transform.position = new Vector3(middleX, transform.position.y, transform.position.z);
+        StartCoroutine(SmoothMove(new Vector3(middleX, transform.position.y, transform.position.z)));
+    }
+
+    private IEnumerator SmoothMove(Vector3 targetPos)
+    {
+        Debug.LogError("Start");
+        float timer = 0.5f;
+        Vector3 startPos = transform.position;
+
+        while (timer > 0)
+        {
+            timer -= Time.deltaTime;
+            float lerpFacor = 1f - (timer / 0.5f);
+            transform.position = Vector3.Lerp(startPos, targetPos, lerpFacor);
+
+            yield return null;
+        }
+        Debug.LogError("End");
     }
 }
