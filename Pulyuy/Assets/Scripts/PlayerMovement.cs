@@ -18,8 +18,8 @@ public class PlayerMovement : MonoBehaviour
     public Transform[] playerPositions;
     [SerializeField] private GameObject player;
     bool canMove = true, locked = false;
-    public int previousPos, currentPos, offset;
-    float nextMoveTime, moveRate;
+    [HideInInspector()]public int previousPos, currentPos, offset;
+    float nextMoveTime, moveRate, startZ = -.1f;
 
     void Start()
     {
@@ -29,6 +29,7 @@ public class PlayerMovement : MonoBehaviour
                 currentPos = i;
         }
         
+        player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, startZ);
         previousPos = currentPos;
         offset = currentPos;
         moveRate = 1f;
@@ -39,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
         if(canMove && !locked)
         {
             Movement();
-            player.transform.position = playerPositions[currentPos].position;
+            player.transform.position = new Vector2(playerPositions[currentPos].position.x, player.transform.position.y);
         }
 
         if(offset != currentPos)
