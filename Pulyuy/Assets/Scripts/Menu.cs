@@ -40,10 +40,10 @@ public class Menu : MonoBehaviour
 
     public void NextAnimation()
     {
-        if (animationPlayed >= 3) LoadGame();
-        else if (animationPlayed == 4) nextButtonText.text = "Play";
+        if (animationPlayed >= 4) LoadGame();
         else
         {
+            if (animationPlayed == 3) nextButtonText.text = "Play";
             tutorialAnimator.SetTrigger("Trigger");
             animationPlayed++;
         }
