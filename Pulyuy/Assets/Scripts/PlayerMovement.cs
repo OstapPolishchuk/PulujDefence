@@ -175,6 +175,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
+            if (!enemy) return;
             SoundManager.PlayShoot();
             CraftManager.instance.bullets--;
             Instantiate(bulletPrefab, bulletSpawnPos.position, bulletSpawnPos.rotation).GetComponent<Bullet>().Init(enemy);
