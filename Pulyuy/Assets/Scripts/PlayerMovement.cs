@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform bulletSpawnPos;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private FinishMenu finishMenu;
+    [SerializeField] private Sprite pulujFront, pulujBack;
     public static bool finished;
 
     void Start()
@@ -112,6 +113,16 @@ public class PlayerMovement : MonoBehaviour
                 //player.GetComponent<SpriteRenderer>().flipX = false;
                 transform.localScale = new Vector3(-1.5f, 1.5f, 1f);
             }
+        }
+
+        //Visual feedback for working
+        if(ChargeManager.instance.beingCharged || CraftManager.instance.crafting)
+        {
+            player.GetComponent<SpriteRenderer>().sprite = pulujBack;
+        }
+        else
+        {
+            player.GetComponent<SpriteRenderer>().sprite = pulujFront;
         }
     }
 

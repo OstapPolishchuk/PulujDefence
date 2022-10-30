@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   renderer: {fileID: 4074763641520863327}
-  skeleton: {fileID: 21300000, guid: 0333026143526b34fbe2e135dd38d807, type: 3}
+  skeleton: {fileID: 21300000, guid: 3ac277febefe5f742917a7fe38eca7ff, type: 3}
   sprites:
   - {fileID: 21300000, guid: ea18203e488780f44b21f183e3548c94, type: 3}
   - {fileID: 21300000, guid: 9d8870ea95b72fc4c85bfc019b74c3c0, type: 3}
@@ -55,6 +55,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9477b7ef8f0075b47857029cb6639f36, type: 3}
   - {fileID: 21300000, guid: 6110624f90e9ec545a84f289c9625f59, type: 3}
   finished: 0
+  killedPlayer: 0
   isRightSide: 0
 --- !u!61 &734987067397919957
 BoxCollider2D:
