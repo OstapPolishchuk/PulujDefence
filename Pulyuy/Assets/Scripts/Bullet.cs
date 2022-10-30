@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
     public void Init(Enemy enemy)
     {
         transform.LookAt(enemy.transform);
-        transform.Rotate(0, 0, 90);
+        transform.localEulerAngles = new Vector3(0, 0, transform.localEulerAngles.z + 90);
         StartCoroutine(Flight(enemy));
     }
 

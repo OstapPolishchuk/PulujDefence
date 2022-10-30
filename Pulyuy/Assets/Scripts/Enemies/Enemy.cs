@@ -10,7 +10,6 @@ public class Enemy : MonoBehaviour
 
     [HideInInspector] public bool finished = false;
 
-    public bool killedPlayer;
     public bool isRightSide;
 
     public void Init(float offset)
@@ -19,7 +18,6 @@ public class Enemy : MonoBehaviour
         StartCoroutine(Move(offset));
         isRightSide = offset > 0;
         renderer.sprite = skeleton;
-        killedPlayer = false;
     }
 
     public void GoToDoor()
@@ -35,6 +33,7 @@ public class Enemy : MonoBehaviour
 
         while (timer > 0)
         {
+            if (PlayerMovement.finished) break;
             timer -= Time.deltaTime;
             float lerpFacor = 1f - (timer / 3f);
             transform.position = Vector3.Lerp(startPos, targetPos, lerpFacor);
@@ -66,16 +65,12 @@ public class Enemy : MonoBehaviour
 
     public void Die()
     {
+        StopAllCoroutines();
         Destroy(gameObject);
     }
 
     public void ChangeSprite()
     {
         renderer.sprite = sprites[Random.Range(0, sprites.Length)];
-    }
-
-    public void Stop()
-    {
-        Debug.Log("Stop");
     }
 }
