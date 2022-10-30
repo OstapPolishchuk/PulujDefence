@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform bulletSpawnPos;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private FinishMenu finishMenu;
-    [SerializeField] private Sprite pulujBack, pulujFront;
+    public static bool finished;
 
     void Start()
     {
@@ -33,7 +33,8 @@ public class PlayerMovement : MonoBehaviour
             if(player.transform.position.x == playerPositions[i].position.x)
                 currentPos = i;
         }
-        
+
+        finished = false;
         player.transform.position = new Vector3(player.transform.position.x, player.transform.position.y, startZ);
         previousPos = currentPos;
         offset = currentPos;
@@ -42,6 +43,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (finished) return;
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (EnemiesManager.instance.enemiesInside.Count == 0)
@@ -111,16 +113,6 @@ public class PlayerMovement : MonoBehaviour
                 transform.localScale = new Vector3(-1.5f, 1.5f, 1f);
             }
         }
-
-        //Showing back if working
-        if(ChargeManager.instance.beingCharged || CraftManager.instance.crafting)
-        {
-            player.GetComponent<SpriteRenderer>().sprite = pulujBack;
-        }
-        else
-        {
-            player.GetComponent<SpriteRenderer>().sprite = pulujFront;
-        }
     }
 
     void TurnOffLocked()
@@ -130,6 +122,8 @@ public class PlayerMovement : MonoBehaviour
 
     public void Die()
     {
+        finished = true;
+        Debug.Log("Oh! The misery!");
         finishMenu.gameObject.SetActive(true);
         finishMenu.IsSuccesfullyCompletes(false);
         SoundManager.Finish(false);
@@ -137,6 +131,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Win()
     {
+        finished = true;
         finishMenu.gameObject.SetActive(true);
         finishMenu.IsSuccesfullyCompletes(true);
         SoundManager.Finish(true);
@@ -179,11 +174,19 @@ public class PlayerMovement : MonoBehaviour
     {
         if (CraftManager.instance.bullets >= 1)
         {
-            Enemy enemy = EnemiesManager.instance.enemiesInside[0];
+            Enemy enemy = null;
 
+            for (int i = 0; i < EnemiesManager.instance.enemiesInside.Count; i++)
+            {
+                if (EnemiesManager.instance.enemiesInside[i] != null)
+                {
+                    enemy = EnemiesManager.instance.enemiesInside[i];
+                    break;
+                }
+            }
             if (!enemy) return;
 
-            EnemiesManager.instance.enemiesL.RemoveAt(0);
+            EnemiesManager.instance.enemiesInside.RemoveAt(0);
             SoundManager.PlayShoot();
             CraftManager.instance.bullets--;
             Instantiate(bulletPrefab, bulletSpawnPos.position, bulletSpawnPos.rotation).GetComponent<Bullet>().Init(enemy);
@@ -192,10 +195,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Enemy")
-        {
-            collision.gameObject.GetComponent<Enemy>().killedPlayer = true;
-            Die();
-        }
+        if (finished) return;
+        if (collision.gameObject.tag == "Enemy") Die();
     }
 }

@@ -17,7 +17,8 @@ public class TimerManager : MonoBehaviour
 
     void Update()
     {
-        if(!paused)
+        if (PlayerMovement.finished) return;
+        if (!paused)
         {
             timer -= Time.deltaTime;
             DisplayTime(timer);
