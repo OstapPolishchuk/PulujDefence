@@ -14,7 +14,9 @@ public class EnemiesManager : MonoBehaviour
     public List<Enemy> enemiesL = new List<Enemy>();
     public List<Enemy> enemiesR = new List<Enemy>();
 
-    private const float spawningInterval = 5f;
+    public List<Enemy> enemiesInside = new List<Enemy>();
+
+    private const float spawningInterval = 2f;
 
     void Awake()
     {
@@ -67,40 +69,44 @@ public class EnemiesManager : MonoBehaviour
     private void KnockLeft()
     {
         Enemy enemy = enemiesL[0];
-        enemiesL.RemoveAt(0);
         StartCoroutine(LeftBrokeInto(enemy));
     }
 
     private void KnockRight()
     {
         Enemy enemy = enemiesR[0];
-        enemiesR.RemoveAt(0);
         StartCoroutine(RightBrokeInto(enemy));
     }
 
     public void OffsetAllLeft()
     {
-        foreach (Enemy enemy in enemiesL) if (enemy.finished) StartCoroutine(enemy.Move(-1));
+        foreach (Enemy enemy in enemiesL) if (enemy.finished && enemy) StartCoroutine(enemy.Move(-1));
     }
 
     public void OffsetAllRight()
     {
-        foreach (Enemy enemy in enemiesR) if (enemy.finished) StartCoroutine(enemy.Move(1));
+        foreach (Enemy enemy in enemiesR) if (enemy.finished && enemy) StartCoroutine(enemy.Move(1));
     }
 
     private IEnumerator LeftBrokeInto(Enemy enemy)
     {
+        
         enemy.GoToDoor();
         OffsetAllLeft();
         yield return new WaitForSeconds(3);
-        enemy.ChangeSprite();
-        LevelManager.instance.OpenLeft();
-        enemy.transform.position = enemy.transform.position + new Vector3(0, 0, -22);
-        enemy.transform.localScale *= 1.2f;
-        while (true)
+        if (enemy)
         {
-            enemy.transform.position += new Vector3(Time.deltaTime, 0, 0);
-            yield return null;
+            enemiesL.RemoveAt(0);
+            enemiesInside.Add(enemy);
+            enemy.ChangeSprite();
+            LevelManager.instance.OpenLeft();
+            enemy.transform.position = enemy.transform.position + new Vector3(0, -0.5f, -22);
+            enemy.transform.localScale *= 1.2f;
+            while (true)
+            {
+                enemy.transform.position += new Vector3(Time.deltaTime, 0, 0);
+                yield return null;
+            }
         }
     }
 
@@ -109,14 +115,19 @@ public class EnemiesManager : MonoBehaviour
         enemy.GoToDoor();
         OffsetAllRight();
         yield return new WaitForSeconds(3);
-        enemy.ChangeSprite();
-        LevelManager.instance.OpenRight();
-        enemy.transform.position = enemy.transform.position + new Vector3(0, 0, -22);
-        enemy.transform.localScale *= 1.2f;
-        while (true)
+        if (enemy)
         {
-            enemy.transform.position -= new Vector3(Time.deltaTime, 0, 0);
-            yield return null;
+            enemiesR.RemoveAt(0);
+            enemiesInside.Add(enemy);
+            enemy.ChangeSprite();
+            LevelManager.instance.OpenRight();
+            enemy.transform.position = enemy.transform.position + new Vector3(0, 0, -22);
+            enemy.transform.localScale *= 1.2f;
+            while (!enemy.killedPlayer)
+            {
+                enemy.transform.position -= new Vector3(Time.deltaTime, 0, 0);
+                yield return null;
+            }
         }
     }
 }

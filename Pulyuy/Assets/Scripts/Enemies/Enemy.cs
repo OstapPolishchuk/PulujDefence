@@ -10,18 +10,16 @@ public class Enemy : MonoBehaviour
 
     [HideInInspector] public bool finished = false;
 
+    public bool killedPlayer;
     public bool isRightSide;
 
     public void Init(float offset)
     {
+        GetComponent<BoxCollider2D>().enabled = false;
         StartCoroutine(Move(offset));
         isRightSide = offset > 0;
         renderer.sprite = skeleton;
-    }
-
-    void Update()
-    {
-
+        killedPlayer = false;
     }
 
     public void GoToDoor()
@@ -48,6 +46,7 @@ public class Enemy : MonoBehaviour
         {
             transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
             StopCoroutine("TurnAround");
+            GetComponent<BoxCollider2D>().enabled = true;
         }
         else
         {
@@ -73,5 +72,10 @@ public class Enemy : MonoBehaviour
     public void ChangeSprite()
     {
         renderer.sprite = sprites[Random.Range(0, sprites.Length)];
+    }
+
+    public void Stop()
+    {
+        Debug.Log("Stop");
     }
 }

@@ -24,15 +24,18 @@ public class XRayMachine : MonoBehaviour
     //Turning on or off windows blockers to see enemies if charge is >50%
     public void WindowsBlockerManager()
     {
+        bool prevActive = windowBlocker.active;
         if(chargeManager.charge != chargeToComp)
         {
             if(chargeManager.charge >= 10f && hp >= 10)
             {
                 windowBlocker.SetActive(false);
+                if (prevActive) SoundManager.SetXray(true);
             }
             else
             {
                 windowBlocker.SetActive(true);
+                if (!prevActive) SoundManager.SetXray(true);
             }
         }
         chargeToComp = chargeManager.charge;

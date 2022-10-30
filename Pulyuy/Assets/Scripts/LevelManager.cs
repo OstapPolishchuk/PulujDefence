@@ -23,8 +23,8 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        CloseLeft();
-        CloseRight();
+        //CloseLeft();
+        //CloseRight();
     }
 
     public void OpenLeft() 
