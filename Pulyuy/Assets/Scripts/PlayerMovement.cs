@@ -24,6 +24,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Transform bulletSpawnPos;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private FinishMenu finishMenu;
+    [SerializeField] private Sprite pulujBack, pulujFront;
 
     void Start()
     {
@@ -110,6 +111,16 @@ public class PlayerMovement : MonoBehaviour
                 transform.localScale = new Vector3(-1.5f, 1.5f, 1f);
             }
         }
+
+        //Showing back if working
+        if(ChargeManager.instance.beingCharged || CraftManager.instance.crafting)
+        {
+            player.GetComponent<SpriteRenderer>().sprite = pulujBack;
+        }
+        else
+        {
+            player.GetComponent<SpriteRenderer>().sprite = pulujFront;
+        }
     }
 
     void TurnOffLocked()
@@ -119,7 +130,6 @@ public class PlayerMovement : MonoBehaviour
 
     public void Die()
     {
-        Debug.Log("Oh! The misery!");
         finishMenu.gameObject.SetActive(true);
         finishMenu.IsSuccesfullyCompletes(false);
         SoundManager.Finish(false);
