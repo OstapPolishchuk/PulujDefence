@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private Transform bulletSpawnPos;
     [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private GameObject gun;
     [SerializeField] private FinishMenu finishMenu;
     [SerializeField] private Sprite pulujFront, pulujBack;
     public static bool finished;
@@ -45,6 +46,11 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         if (finished) return;
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            finishMenu.gameObject.SetActive(true);
+            finishMenu.Pause();
+        }
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (EnemiesManager.instance.enemiesInside.Count == 0)
@@ -56,13 +62,13 @@ public class PlayerMovement : MonoBehaviour
                 ShootInside();
             }
         }
-        if(canMove && !locked)
+        if (canMove && !locked)
         {
             Movement();
             player.transform.position = new Vector2(playerPositions[currentPos].position.x, player.transform.position.y);
         }
 
-        if(offset != currentPos)
+        if (offset != currentPos)
         {
             previousPos = offset;
         }
@@ -119,10 +125,12 @@ public class PlayerMovement : MonoBehaviour
         if(ChargeManager.instance.beingCharged || CraftManager.instance.crafting)
         {
             player.GetComponent<SpriteRenderer>().sprite = pulujBack;
+            gun.SetActive(false);
         }
         else
         {
             player.GetComponent<SpriteRenderer>().sprite = pulujFront;
+            gun.SetActive(true);
         }
     }
 

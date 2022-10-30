@@ -22,4 +22,9 @@ public class FinishMenu : MonoBehaviour
         if (value) resultText.text = "You won!";
         else resultText.text = "You lost!";
     }
+
+    public void Pause()
+    {
+        resultText.text = "Pause!";
+    }
 }
