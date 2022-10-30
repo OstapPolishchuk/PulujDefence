@@ -28,15 +28,11 @@ public class EnemiesManager : MonoBehaviour
         StartCoroutine(Spawning());
     }
 
-    public void StartSpawning()
-    {
-        StartCoroutine(Spawning());
-    }
-
     private IEnumerator Spawning()
     {
         while (true)
         {
+            if (PlayerMovement.finished) break;
             Enemy enemy = Instantiate(enemyPrefab, new Vector3(0, 0, 20), Quaternion.Euler(0, 0, 0)).GetComponent<Enemy>();
             int a = Random.Range(0, 2);
             if (a == 0)
@@ -90,44 +86,49 @@ public class EnemiesManager : MonoBehaviour
 
     private IEnumerator LeftBrokeInto(Enemy enemy)
     {
-        
-        enemy.GoToDoor();
-        OffsetAllLeft();
-        yield return new WaitForSeconds(3);
+
         if (enemy)
         {
+            enemy.GoToDoor();
+            OffsetAllLeft();
+            yield return new WaitForSeconds(3);
+
             enemiesL.RemoveAt(0);
             enemiesInside.Add(enemy);
             enemy.ChangeSprite();
             LevelManager.instance.OpenLeft();
             enemy.transform.position = enemy.transform.position + new Vector3(0, -0.5f, -22);
             enemy.transform.localScale *= 1.2f;
-            while (true)
-            {
-                enemy.transform.position += new Vector3(Time.deltaTime, 0, 0);
-                yield return null;
-            }
+        }
+        while (true)
+        {
+            if (PlayerMovement.finished) break;
+            if (!enemy) break;
+            enemy.transform.position += new Vector3(Time.deltaTime, 0, 0);
+            yield return null;
         }
     }
 
     private IEnumerator RightBrokeInto(Enemy enemy)
     {
-        enemy.GoToDoor();
-        OffsetAllRight();
-        yield return new WaitForSeconds(3);
         if (enemy)
         {
+            enemy.GoToDoor();
+            OffsetAllRight();
+            yield return new WaitForSeconds(3);
+
             enemiesR.RemoveAt(0);
             enemiesInside.Add(enemy);
             enemy.ChangeSprite();
             LevelManager.instance.OpenRight();
             enemy.transform.position = enemy.transform.position + new Vector3(0, 0, -22);
             enemy.transform.localScale *= 1.2f;
-            while (!enemy.killedPlayer)
-            {
-                enemy.transform.position -= new Vector3(Time.deltaTime, 0, 0);
-                yield return null;
-            }
+        }
+        while (!PlayerMovement.finished)
+        {
+            if (!enemy) break;
+            enemy.transform.position -= new Vector3(Time.deltaTime, 0, 0);
+            yield return null;
         }
     }
 }

@@ -62,19 +62,39 @@ public class XRayMachine : MonoBehaviour
 
     IEnumerator Damage()
     {
-        while(damaging)
+        while (damaging && hp > 0)
         {
             hp--;
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.5f);
         }
     }
     
     IEnumerator Healing()
     {
-        while(healing)
+        while(healing && hp < maxHP)
         {
             hp++;
             yield return new WaitForSeconds(0.5f);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            healing = false;
+            damaging = true;
+            StartDamaging();
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            healing = true;
+            damaging = false;
+            StartCoroutine(Healing());
         }
     }
 }

@@ -29,6 +29,7 @@ public class SleepManager : MonoBehaviour
 
     void Update()
     {
+        if (PlayerMovement.finished) return;
         //Sleep timer add every frame
         sleepTimer += Time.deltaTime;
 
