@@ -104,7 +104,7 @@ public class ChargeManager : MonoBehaviour
         percBckgrnd.GetComponent<Image>().color = new Color32(255, 0, 0,255);
         while(!beingCharged && charge > minCharge)
         {
-            yield return new WaitForSeconds(0.7f);
+            yield return new WaitForSeconds(0.4f);
             charge--;
         }
     }
@@ -116,7 +116,7 @@ public class ChargeManager : MonoBehaviour
         helpingChargeBool = true;
         while(beingCharged && charge < maxCharge)
         {
-            yield return new WaitForSeconds(0.8f);
+            yield return new WaitForSeconds(0.5f);
             charge++;
         }
     }
