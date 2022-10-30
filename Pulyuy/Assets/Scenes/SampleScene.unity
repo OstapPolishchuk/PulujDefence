@@ -1395,7 +1395,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 599545379}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -14.93, y: 1.8711, z: 0.5}
+  m_LocalPosition: {x: -14.93, y: 1.5, z: 0.5}
   m_LocalScale: {x: 1.04969, y: 1.04969, z: 1.04969}
   m_Children: []
   m_Father: {fileID: 84950333}
@@ -2036,7 +2036,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.07766336, y: 0}
+  m_Offset: {x: -0.054550767, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2047,7 +2047,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.8410212, y: 3.18}
+  m_Size: {x: 1.7137036, y: 3.18}
   m_EdgeRadius: 0
 --- !u!50 &824756331
 Rigidbody2D:
@@ -2557,8 +2557,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1094633476}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.2724799, y: 9.760605, z: 0}
-  m_LocalScale: {x: 71.07506, y: 77.01025, z: 87.78166}
+  m_LocalPosition: {x: -1.033, y: 9.444, z: 0.1}
+  m_LocalScale: {x: 67.25748, y: 73.908585, z: 87.78166}
   m_Children: []
   m_Father: {fileID: 1146112588}
   m_RootOrder: 1
@@ -2782,6 +2782,8 @@ GameObject:
   - component: {fileID: 1146112588}
   - component: {fileID: 1146112590}
   - component: {fileID: 1146112589}
+  - component: {fileID: 1146112592}
+  - component: {fileID: 1146112591}
   m_Layer: 0
   m_Name: X-RayMachineL
   m_TagString: Untagged
@@ -2797,7 +2799,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1146112587}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.6712475, y: -3.5136547, z: 0}
+  m_LocalPosition: {x: -9.835, y: -3.33, z: 0.1}
   m_LocalScale: {x: 0.6644536, y: 0.6059126, z: 0.6644536}
   m_Children:
   - {fileID: 736127131}
@@ -2876,6 +2878,53 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!50 &1146112591
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146112587}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
+--- !u!61 &1146112592
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146112587}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.84084904, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 10.93, y: 15}
+    newSize: {x: 5.12, y: 5.12}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 9.248302, y: 15}
+  m_EdgeRadius: 0
 --- !u!1 &1190113131
 GameObject:
   m_ObjectHideFlags: 0
@@ -3299,8 +3348,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1354964151}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 14.83, y: 1.9, z: 0.5}
-  m_LocalScale: {x: 1.0248, y: 1.0248, z: 1.0248}
+  m_LocalPosition: {x: 14.83, y: 1.6, z: 0.5}
+  m_LocalScale: {x: -1.0248, y: 1.0248, z: 1.0248}
   m_Children: []
   m_Father: {fileID: 84950333}
   m_RootOrder: 5
@@ -3694,8 +3743,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1580415613}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.2724799, y: 9.760605, z: 0}
-  m_LocalScale: {x: 71.07506, y: 77.01025, z: 87.78166}
+  m_LocalPosition: {x: -1.039, y: 9.495, z: 0.1}
+  m_LocalScale: {x: 66.48675, y: 73.42069, z: 1}
   m_Children: []
   m_Father: {fileID: 1641360325}
   m_RootOrder: 1
@@ -3972,6 +4021,8 @@ GameObject:
   - component: {fileID: 1641360325}
   - component: {fileID: 1641360326}
   - component: {fileID: 1641360327}
+  - component: {fileID: 1641360329}
+  - component: {fileID: 1641360328}
   m_Layer: 0
   m_Name: X-RayMachineR
   m_TagString: Untagged
@@ -3987,7 +4038,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1641360324}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 25.047834, y: -3.5136547, z: 0}
+  m_LocalPosition: {x: 24.96, y: -3.36, z: 0.1}
   m_LocalScale: {x: 0.6644536, y: 0.6059126, z: 0.6644536}
   m_Children:
   - {fileID: 575948864}
@@ -4066,6 +4117,53 @@ MonoBehaviour:
   windowBlocker: {fileID: 1580415613}
   hPBarParent: {fileID: 575948863}
   hPBar: {fileID: 286506642}
+--- !u!50 &1641360328
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1641360324}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
+--- !u!61 &1641360329
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1641360324}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.8993052, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 10.93, y: 15}
+    newSize: {x: 5.12, y: 5.12}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 9.13139, y: 15}
+  m_EdgeRadius: 0
 --- !u!1 &1679731920
 GameObject:
   m_ObjectHideFlags: 0
@@ -5116,7 +5214,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 545521654b7727f448337ab15e982f39, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -5257,7 +5355,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 46e64ca97957c024ca208cce966967e4, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -5384,7 +5482,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 97cab9db92ee00644bbbd0e91761fc2f, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.182
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -5559,7 +5657,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 99d7686b9d4955745bbfd7757ef8169c, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -5669,7 +5767,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 34c1e6c701c1bcd48ad45ea6a6a72f66, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -5811,9 +5909,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 83441d3121cf75d4cbde267a032e4152, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 6650feab85b8c9f4d930756155e06ea8, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -6232,7 +6330,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: f012ef5c988a62b43b08c00ebc6d1c79, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -6360,7 +6458,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 0cdc4c94f07a12d49bbdf74e5b4a30c4, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -6490,7 +6588,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 0fe47b1924601e14cac294583223aa3a, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.2
   m_Pitch: 1
   Loop: 0
   Mute: 0

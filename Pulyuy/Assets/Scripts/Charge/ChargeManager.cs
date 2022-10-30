@@ -124,6 +124,7 @@ public class ChargeManager : MonoBehaviour
     //Exploding X-rays as charge = 100%
     void Explode()
     {
+        SoundManager.PlayOverHeat();
         Enemy enemyToKill = null;
         for (int i = 0; i < killPerExh / 2; i++)
         {
