@@ -22,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     float nextMoveTime, moveRate, startZ = -.1f;
 
     [SerializeField] private Transform bulletSpawnPos;
-    [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private GameObject bulletPrefab, gun;
     [SerializeField] private FinishMenu finishMenu;
     [SerializeField] private Sprite pulujFront, pulujBack;
     public static bool finished;
@@ -119,10 +119,12 @@ public class PlayerMovement : MonoBehaviour
         if(ChargeManager.instance.beingCharged || CraftManager.instance.crafting)
         {
             player.GetComponent<SpriteRenderer>().sprite = pulujBack;
+            gun.SetActive(false);
         }
         else
         {
             player.GetComponent<SpriteRenderer>().sprite = pulujFront;
+            gun.SetActive(true);
         }
     }
 
