@@ -9,6 +9,7 @@ public class XRayMachine : MonoBehaviour
     public int hp = 20, maxHP = 20, chargeToComp;
     public bool damaging = false, healing = false;
     public GameObject windowBlocker, hPBarParent, hPBar;
+    private Enemy breakingEnemy;
 
     void Start()
     {
@@ -52,6 +53,7 @@ public class XRayMachine : MonoBehaviour
         {
             hPBarParent.SetActive(false);
         }
+        if (hp <= 0) breakingEnemy.isBreaking = false;
     }
 
     public void StartDamaging()
@@ -84,6 +86,8 @@ public class XRayMachine : MonoBehaviour
         {
             healing = false;
             damaging = true;
+            if (!breakingEnemy) breakingEnemy = collision.gameObject.GetComponent<Enemy>();
+            breakingEnemy.isBreaking = true;
             StartDamaging();
         }
     }

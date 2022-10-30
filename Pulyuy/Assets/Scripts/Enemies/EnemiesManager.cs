@@ -16,7 +16,7 @@ public class EnemiesManager : MonoBehaviour
 
     public List<Enemy> enemiesInside = new List<Enemy>();
 
-    private static float spawningInterval = 8f;
+    private static float spawningInterval = 4f;
 
     void Awake()
     {
@@ -87,7 +87,6 @@ public class EnemiesManager : MonoBehaviour
 
     private IEnumerator LeftBrokeInto(Enemy enemy)
     {
-
         if (enemy)
         {
             enemy.GoToDoor();
@@ -108,7 +107,7 @@ public class EnemiesManager : MonoBehaviour
         {
             if (PlayerMovement.finished) break;
             if (!enemy) break;
-            enemy.transform.position += new Vector3(Time.deltaTime, 0, 0);
+            if (!enemy.isBreaking) enemy.transform.position += new Vector3(Time.deltaTime, 0, 0);
             yield return null;
         }
     }
@@ -123,7 +122,6 @@ public class EnemiesManager : MonoBehaviour
         yield return new WaitForSeconds(3);
         if (enemy)
         {
-            
             enemiesR.RemoveAt(0);
             enemiesInside.Add(enemy);
             enemy.ChangeSprite();
@@ -135,7 +133,7 @@ public class EnemiesManager : MonoBehaviour
         while (!PlayerMovement.finished)
         {
             if (!enemy) break;
-            enemy.transform.position -= new Vector3(Time.deltaTime, 0, 0);
+            if (!enemy.isBreaking) enemy.transform.position -= new Vector3(Time.deltaTime, 0, 0);
             yield return null;
         }
     }

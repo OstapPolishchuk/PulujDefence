@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
 
     [HideInInspector] public bool finished = false;
 
+    public bool isBreaking;
     public bool isRightSide;
 
     public void Init(float offset)
