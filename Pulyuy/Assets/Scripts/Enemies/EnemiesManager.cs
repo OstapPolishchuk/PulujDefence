@@ -16,7 +16,7 @@ public class EnemiesManager : MonoBehaviour
 
     public List<Enemy> enemiesInside = new List<Enemy>();
 
-    private const float spawningInterval = 2f;
+    private static float spawningInterval = 8f;
 
     void Awake()
     {
@@ -47,6 +47,7 @@ public class EnemiesManager : MonoBehaviour
             }
 
             yield return new WaitForSeconds(spawningInterval);
+            spawningInterval -= 0.2f;
         }
     }
 
@@ -91,11 +92,14 @@ public class EnemiesManager : MonoBehaviour
         {
             enemy.GoToDoor();
             OffsetAllLeft();
-            yield return new WaitForSeconds(3);
-
+        }
+        yield return new WaitForSeconds(3);
+        if (enemy)
+        {
             enemiesL.RemoveAt(0);
             enemiesInside.Add(enemy);
             enemy.ChangeSprite();
+            enemy.GetComponent<BoxCollider2D>().enabled = true;
             LevelManager.instance.OpenLeft();
             enemy.transform.position = enemy.transform.position + new Vector3(0, -0.5f, -22);
             enemy.transform.localScale *= 1.2f;
@@ -115,11 +119,15 @@ public class EnemiesManager : MonoBehaviour
         {
             enemy.GoToDoor();
             OffsetAllRight();
-            yield return new WaitForSeconds(3);
-
+        }
+        yield return new WaitForSeconds(3);
+        if (enemy)
+        {
+            
             enemiesR.RemoveAt(0);
             enemiesInside.Add(enemy);
             enemy.ChangeSprite();
+            enemy.GetComponent<BoxCollider2D>().enabled = true;
             LevelManager.instance.OpenRight();
             enemy.transform.position = enemy.transform.position + new Vector3(0, 0, -22);
             enemy.transform.localScale *= 1.2f;
