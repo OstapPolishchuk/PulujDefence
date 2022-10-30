@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] private Transform bulletSpawnPos;
     [SerializeField] private GameObject bulletPrefab;
+    [SerializeField] private FinishMenu finishMenu;
 
     void Start()
     {
@@ -42,7 +43,14 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (player.transform.position.x <= -12 || player.transform.position.x >= 12) Shoot();
+            if (EnemiesManager.instance.enemiesInside.Count == 0)
+            {
+                if (player.transform.position.x <= -12 || player.transform.position.x >= 12) Shoot();
+            }
+            else
+            {
+                ShootInside();
+            }
         }
         if(canMove && !locked)
         {
@@ -112,6 +120,16 @@ public class PlayerMovement : MonoBehaviour
     public void Die()
     {
         Debug.Log("Oh! The misery!");
+        finishMenu.gameObject.SetActive(true);
+        finishMenu.IsSuccesfullyCompletes(false);
+        SoundManager.Finish(false);
+    }
+
+    public void Win()
+    {
+        finishMenu.gameObject.SetActive(true);
+        finishMenu.IsSuccesfullyCompletes(true);
+        SoundManager.Finish(true);
     }
 
     private void Shoot()
@@ -125,6 +143,7 @@ public class PlayerMovement : MonoBehaviour
                 if (EnemiesManager.instance.enemiesR.Count >= 1)
                 {
                     enemy = EnemiesManager.instance.enemiesR[0];
+                    if (!enemy) return;
                     EnemiesManager.instance.enemiesR.RemoveAt(0);
                     LevelManager.instance.OpenRight();
                 }
@@ -134,19 +153,39 @@ public class PlayerMovement : MonoBehaviour
                 if (EnemiesManager.instance.enemiesL.Count >= 1)
                 {
                     enemy = EnemiesManager.instance.enemiesL[0];
+                    if (!enemy) return;
                     EnemiesManager.instance.enemiesL.RemoveAt(0);
                     LevelManager.instance.OpenLeft();
                 }
             }
 
-            if (!enemy)
-            {
-                LevelManager.instance.CloseLeft();
-                LevelManager.instance.CloseRight();
-                return;
-            }
+            SoundManager.PlayShoot();
             CraftManager.instance.bullets--;
             Instantiate(bulletPrefab, bulletSpawnPos.position, bulletSpawnPos.rotation).GetComponent<Bullet>().Init(enemy);
+        }
+    }
+
+    private void ShootInside()
+    {
+        if (CraftManager.instance.bullets >= 1)
+        {
+            Enemy enemy = EnemiesManager.instance.enemiesInside[0];
+
+            if (!enemy) return;
+
+            EnemiesManager.instance.enemiesL.RemoveAt(0);
+            SoundManager.PlayShoot();
+            CraftManager.instance.bullets--;
+            Instantiate(bulletPrefab, bulletSpawnPos.position, bulletSpawnPos.rotation).GetComponent<Bullet>().Init(enemy);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            collision.gameObject.GetComponent<Enemy>().killedPlayer = true;
+            Die();
         }
     }
 }

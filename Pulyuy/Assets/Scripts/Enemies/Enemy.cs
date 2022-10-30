@@ -10,18 +10,16 @@ public class Enemy : MonoBehaviour
 
     [HideInInspector] public bool finished = false;
 
+    public bool killedPlayer;
     public bool isRightSide;
 
     public void Init(float offset)
     {
+        GetComponent<BoxCollider2D>().enabled = false;
         StartCoroutine(Move(offset));
         isRightSide = offset > 0;
         renderer.sprite = skeleton;
-    }
-
-    void Update()
-    {
-
+        killedPlayer = false;
     }
 
     public void GoToDoor()
@@ -29,16 +27,16 @@ public class Enemy : MonoBehaviour
         StartCoroutine(Move(isRightSide ? 5 : -5));
     }
 
-    private IEnumerator Move(float offset)
+    public IEnumerator Move(float offset)
     {
-        float timer = 5f;
+        float timer = 3f;
         Vector3 startPos = transform.position;
         Vector3 targetPos = startPos + new Vector3(offset, 0, 0);
 
         while (timer > 0)
         {
             timer -= Time.deltaTime;
-            float lerpFacor = 1f - (timer / 5f);
+            float lerpFacor = 1f - (timer / 3f);
             transform.position = Vector3.Lerp(startPos, targetPos, lerpFacor);
 
             yield return null;
@@ -46,9 +44,9 @@ public class Enemy : MonoBehaviour
 
         if (finished)
         {
-            renderer.sprite = sprites[Random.Range(0, sprites.Length)];
             transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
             StopCoroutine("TurnAround");
+            GetComponent<BoxCollider2D>().enabled = true;
         }
         else
         {
@@ -69,5 +67,15 @@ public class Enemy : MonoBehaviour
     public void Die()
     {
         Destroy(gameObject);
+    }
+
+    public void ChangeSprite()
+    {
+        renderer.sprite = sprites[Random.Range(0, sprites.Length)];
+    }
+
+    public void Stop()
+    {
+        Debug.Log("Stop");
     }
 }

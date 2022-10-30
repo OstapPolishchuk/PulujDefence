@@ -24,7 +24,7 @@ public class TimerManager : MonoBehaviour
         }
         if(timer <= 0 && !win)
         {
-            Win();
+            PlayerMovement.instance.Win();
             win = true;
         }
     }
@@ -35,10 +35,5 @@ public class TimerManager : MonoBehaviour
         float seconds = Mathf.FloorToInt(timeToDisplay % 60);
 
         timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-    }
-
-    void Win()
-    {
-        Debug.Log("You won!");
     }
 }
