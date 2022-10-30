@@ -2023,8 +2023,8 @@ MonoBehaviour:
   bulletSpawnPos: {fileID: 1000718246}
   bulletPrefab: {fileID: 1870373352600047924, guid: 7e3d0d32988b3204495a0a3066128d1f, type: 3}
   finishMenu: {fileID: 8438011115235979628}
-  pulujBack: {fileID: 21300000, guid: 41f61da97fd93fa4c81705821e8cdbc1, type: 3}
   pulujFront: {fileID: 21300000, guid: c13550c5804d0384ba23ed620e72908d, type: 3}
+  pulujBack: {fileID: 21300000, guid: 41f61da97fd93fa4c81705821e8cdbc1, type: 3}
 --- !u!61 &824756330
 BoxCollider2D:
   m_ObjectHideFlags: 0
